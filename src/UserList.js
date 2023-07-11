@@ -24,6 +24,9 @@ function UserList() {
             Failed to load users. Please try again.
           </div>
         }
+        {users?.value?.length === 0 && !users?.loading &&
+          <div className="col-12">No users available</div>
+        }
         {users?.value?.map(user => {
           return (
             <div className="col-lg-4 col-md-6 col-12" key={user.id}>
@@ -39,6 +42,12 @@ function UserList() {
                     <p className="text-muted mb-0">{user.phone}</p>
                   </div>
                 </div>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => dispatch(userActions.remove(user.id))}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           );

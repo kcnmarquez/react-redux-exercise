@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const name = 'users';
@@ -18,6 +18,7 @@ function createExtraActions() {
 
   return {
     getAll: getAll(),
+    remove: createAction(`${name}/remove`),
   };
 
   function getAll() {
@@ -34,6 +35,7 @@ function createExtraActions() {
 function createExtraReducers() {
   return (builder) => {
     getAll();
+    remove();
 
     function getAll() {
       const { pending, fulfilled, rejected } = extraActions.getAll;
@@ -47,6 +49,13 @@ function createExtraReducers() {
         .addCase(rejected, (state, action) => {
           state.list = { error: action.error };
         });
+    }
+
+    function remove() {
+      builder.addCase(extraActions.remove, (state, action) => {
+        const newList = state.list.value.filter(user => user.id !== action.payload);
+        state.list = { value: newList };
+      });
     }
   }
 }
