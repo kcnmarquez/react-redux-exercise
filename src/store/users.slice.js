@@ -13,8 +13,9 @@ const slice = createSlice({ name, initialState, extraReducers });
 export const userActions = { ...slice.actions, ...extraActions };
 export const usersReducer = slice.reducer;
 
+export const API_URL = 'https://jsonplaceholder.typicode.com/users';
+
 function createExtraActions() {
-  const baseUrl = 'https://jsonplaceholder.typicode.com/users';
 
   return {
     getAll: getAll(),
@@ -25,7 +26,7 @@ function createExtraActions() {
     return createAsyncThunk(
       `${name}/getAll`,
       async () => {
-        const response = await axios.get(baseUrl);
+        const response = await axios.get(API_URL);
         return response.data;
       }
     );

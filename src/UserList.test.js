@@ -2,6 +2,7 @@ import { fireEvent, waitForElementToBeRemoved, within } from '@testing-library/r
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import UserList from './UserList';
+import { API_URL } from './store/users.slice';
 import { renderWithProviders } from './utils/test-utils';
 
 describe('Users List', () => {
@@ -21,7 +22,7 @@ describe('Users List', () => {
   ];
 
   function getUsers(users) {
-    return rest.get('https://jsonplaceholder.typicode.com/users', (req, res, ctx) => {
+    return rest.get(API_URL, (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(users));
     });
   }
@@ -100,7 +101,7 @@ describe('Users List', () => {
 
   it('should show an error alert when API fails', async () => {
     server.use(
-      rest.get('https://jsonplaceholder.typicode.com/users', (req, res, ctx) => {
+      rest.get(API_URL, (req, res, ctx) => {
         return res.once(ctx.status(500), ctx.json({ error: 'error' }));
       })
     );
