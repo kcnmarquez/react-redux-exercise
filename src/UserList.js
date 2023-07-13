@@ -1,12 +1,12 @@
 import React from 'react';
 import { EnvelopeFill, ExclamationTriangleFill, TelephoneFill } from 'react-bootstrap-icons';
-import { useDispatch, useSelector } from 'react-redux';
 import './UserList.css';
-import { userActions } from './store/users.slice';
+import { useAppDispatch, useAppSelector } from './store/hooks.js';
+import { userActions } from './store/users.slice.js';
 
 function UserList() {
-  const users = useSelector((state) => state.users.list);
-  const dispatch = useDispatch();
+  const users = useAppSelector((state) => state.users.list);
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     dispatch(userActions.getAll());
@@ -30,7 +30,7 @@ function UserList() {
         {users?.value?.map(user => {
           return (
             <div className="col-lg-4 col-md-6 col-12" key={user.id}>
-              <div className="card h-100">
+              <div className="card h-100" data-testid="user-card">
                 <div className="card-body gap-2 p-0 my-4 d-flex flex-column justify-content-center">
                   <h2>{user.name}</h2>
                   <div className="d-flex align-items-center justify-content-center">
